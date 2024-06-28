@@ -27,7 +27,7 @@ import (
 )
 
 func Example() {
-	undo, err := maxprocs.Set()
+	undo, _, err := maxprocs.Set()
 	defer undo()
 	if err != nil {
 		log.Fatalf("failed to set GOMAXPROCS: %v", err)
@@ -38,7 +38,7 @@ func Example() {
 func ExampleLogger() {
 	// By default, Set doesn't output any logs. You can enable logging by
 	// supplying a printf implementation.
-	undo, err := maxprocs.Set(maxprocs.Logger(log.Printf))
+	undo, _, err := maxprocs.Set(maxprocs.Logger(log.Printf))
 	defer undo()
 	if err != nil {
 		log.Fatalf("failed to set GOMAXPROCS: %v", err)

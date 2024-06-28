@@ -26,6 +26,7 @@ package maxprocs // import "go.uber.org/automaxprocs/maxprocs"
 import (
 	"os"
 	"runtime"
+	"strconv"
 
 	iruntime "go.uber.org/automaxprocs/internal/runtime"
 )
@@ -88,7 +89,7 @@ func (of optionFunc) apply(cfg *config) { of(cfg) }
 //
 // Set is a no-op on non-Linux systems and in Linux environments without a
 // configured CPU quota.
-func Set(opts ...Option) (func(), error) {
+func Set(opts ...Option) (func(), int, error) {
 	cfg := &config{
 		procs:          iruntime.CPUQuotaToGOMAXPROCS,
 		roundQuotaFunc: iruntime.DefaultRoundFunc,
@@ -108,20 +109,25 @@ func Set(opts ...Option) (func(), error) {
 	// can be overridden using `maxprocs.Min()`.
 	if max, exists := os.LookupEnv(_maxProcsKey); exists {
 		cfg.log("maxprocs: Honoring GOMAXPROCS=%q as set in environment", max)
-		return undoNoop, nil
+		nMax, err := strconv.Atoi(max)
+		if err != nil {
+			return undoNoop, 0, err
+		}
+		return undoNoop, nMax, nil
 	}
 
 	maxProcs, status, err := cfg.procs(cfg.minGOMAXPROCS, cfg.roundQuotaFunc)
 	if err != nil {
-		return undoNoop, err
-	}
-
-	if status == iruntime.CPUQuotaUndefined {
-		cfg.log("maxprocs: Leaving GOMAXPROCS=%v: CPU quota undefined", currentMaxProcs())
-		return undoNoop, nil
+		return undoNoop, 0, err
 	}
 
 	prev := currentMaxProcs()
+
+	if status == iruntime.CPUQuotaUndefined {
+		cfg.log("maxprocs: Leaving GOMAXPROCS=%v: CPU quota undefined", prev)
+		return undoNoop, prev, nil
+	}
+
 	undo := func() {
 		cfg.log("maxprocs: Resetting GOMAXPROCS to %v", prev)
 		runtime.GOMAXPROCS(prev)
@@ -135,5 +141,5 @@ func Set(opts ...Option) (func(), error) {
 	}
 
 	runtime.GOMAXPROCS(maxProcs)
-	return undo, nil
+	return undo, maxProcs, nil
 }

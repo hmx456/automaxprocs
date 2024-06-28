@@ -65,14 +65,14 @@ func stubProcs(f func(int, func(v float64) int) (int, iruntime.CPUQuotaStatus, e
 func TestLogger(t *testing.T) {
 	t.Run("default", func(t *testing.T) {
 		// Calling Set without options should be safe.
-		undo, err := Set()
+		undo, _, err := Set()
 		defer undo()
 		require.NoError(t, err, "Set failed")
 	})
 
 	t.Run("override", func(t *testing.T) {
 		buf, opt := testLogger()
-		undo, err := Set(opt)
+		undo, _, err := Set(opt)
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.True(t, buf.Len() > 0, "didn't capture log output")
@@ -89,7 +89,7 @@ func TestSet(t *testing.T) {
 	t.Run("EnvVarPresent", func(t *testing.T) {
 		withMax(t, 42, func() {
 			prev := currentMaxProcs()
-			undo, err := Set()
+			undo, _, err := Set()
 			defer undo()
 			require.NoError(t, err, "Set failed")
 			assert.Equal(t, prev, currentMaxProcs(), "shouldn't alter GOMAXPROCS")
@@ -101,7 +101,7 @@ func TestSet(t *testing.T) {
 			return 0, iruntime.CPUQuotaUndefined, errors.New("failed")
 		})
 		prev := currentMaxProcs()
-		undo, err := Set(opt)
+		undo, _, err := Set(opt)
 		defer undo()
 		require.Error(t, err, "Set should have failed")
 		assert.Equal(t, "failed", err.Error(), "should pass errors up the stack")
@@ -114,7 +114,7 @@ func TestSet(t *testing.T) {
 			return 0, iruntime.CPUQuotaUndefined, nil
 		})
 		prev := currentMaxProcs()
-		undo, err := Set(logOpt, quotaOpt)
+		undo, _, err := Set(logOpt, quotaOpt)
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, prev, currentMaxProcs(), "shouldn't alter GOMAXPROCS")
@@ -127,7 +127,7 @@ func TestSet(t *testing.T) {
 			return 7, iruntime.CPUQuotaUndefined, nil
 		})
 		prev := currentMaxProcs()
-		undo, err := Set(logOpt, quotaOpt)
+		undo, _, err := Set(logOpt, quotaOpt)
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, prev, currentMaxProcs(), "shouldn't alter GOMAXPROCS")
@@ -139,7 +139,7 @@ func TestSet(t *testing.T) {
 		quotaOpt := stubProcs(func(min int, round func(v float64) int) (int, iruntime.CPUQuotaStatus, error) {
 			return min, iruntime.CPUQuotaMinUsed, nil
 		})
-		undo, err := Set(logOpt, quotaOpt, Min(5))
+		undo, _, err := Set(logOpt, quotaOpt, Min(5))
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, 5, currentMaxProcs(), "should use min allowed GOMAXPROCS")
@@ -152,7 +152,7 @@ func TestSet(t *testing.T) {
 			return min, iruntime.CPUQuotaMinUsed, nil
 		})
 		// Min(-1) should be ignored.
-		undo, err := Set(logOpt, quotaOpt, Min(5), Min(-1))
+		undo, _, err := Set(logOpt, quotaOpt, Min(5), Min(-1))
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, 5, currentMaxProcs(), "should use min allowed GOMAXPROCS")
@@ -164,7 +164,7 @@ func TestSet(t *testing.T) {
 			assert.Equal(t, 1, min, "Default minimum value should be 1")
 			return 42, iruntime.CPUQuotaUsed, nil
 		})
-		undo, err := Set(opt)
+		undo, _, err := Set(opt)
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, 42, currentMaxProcs(), "should change GOMAXPROCS to match quota")
@@ -175,7 +175,7 @@ func TestSet(t *testing.T) {
 			assert.Equal(t, round(2.4), 3, "round should be math.Ceil")
 			return 43, iruntime.CPUQuotaUsed, nil
 		})
-		undo, err := Set(opt, RoundQuotaFunc(func(v float64) int { return int(math.Ceil(v)) }))
+		undo, _, err := Set(opt, RoundQuotaFunc(func(v float64) int { return int(math.Ceil(v)) }))
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, 43, currentMaxProcs(), "should change GOMAXPROCS to match rounded up quota")
@@ -186,7 +186,7 @@ func TestSet(t *testing.T) {
 			assert.Equal(t, round(2.6), 2, "round should be math.Floor")
 			return 42, iruntime.CPUQuotaUsed, nil
 		})
-		undo, err := Set(opt, RoundQuotaFunc(func(v float64) int { return int(math.Floor(v)) }))
+		undo, _, err := Set(opt, RoundQuotaFunc(func(v float64) int { return int(math.Floor(v)) }))
 		defer undo()
 		require.NoError(t, err, "Set failed")
 		assert.Equal(t, 42, currentMaxProcs(), "should change GOMAXPROCS to match rounded up quota")
