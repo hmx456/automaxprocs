@@ -25,7 +25,7 @@ package automaxprocs // import "go.uber.org/automaxprocs"
 import (
 	"log"
 
-	"go.uber.org/automaxprocs/maxprocs"
+	"github.com/hmx456/automaxprocs/maxprocs"
 )
 
 func init() {

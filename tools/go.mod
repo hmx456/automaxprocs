@@ -1,4 +1,4 @@
-module go.uber.org/automaxprocs/tools
+module github.com/hmx456/automaxprocs/tools
 
 go 1.20
 
