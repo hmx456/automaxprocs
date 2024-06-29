@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4653e9bd-a92e-4f50-b8c6-8d120960129d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="4653e9bd-a92e-4f50-b8c6-8d120960129d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +24,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Go Test.TestLogger/default in github.com/hmx456/automaxprocs/maxprocs.executor&quot;: &quot;Debug&quot;,
     &quot;Go Test.TestLogger/override in go.uber.org/automaxprocs/maxprocs.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
@@ -41,7 +40,30 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Test.TestLogger/default in github.com/hmx456/automaxprocs">
+    <configuration name="TestLogger/default in github.com/hmx456/automaxprocs" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="automaxprocs" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/hmx456/automaxprocs" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestLogger\E$/^\Qdefault\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestLogger/default in github.com/hmx456/automaxprocs/maxprocs" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="automaxprocs" />
+      <working_directory value="$PROJECT_DIR$/maxprocs" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/hmx456/automaxprocs/maxprocs" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestLogger\E$/^\Qdefault\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestLogger/override in go.uber.org/automaxprocs/maxprocs" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="automaxprocs" />
       <working_directory value="$PROJECT_DIR$/maxprocs" />
@@ -56,6 +78,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestLogger/default in github.com/hmx456/automaxprocs" />
+        <item itemvalue="Go Test.TestLogger/default in github.com/hmx456/automaxprocs/maxprocs" />
         <item itemvalue="Go Test.TestLogger/override in go.uber.org/automaxprocs/maxprocs" />
       </list>
     </recent_temporary>
